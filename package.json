@@ -1,0 +1,26 @@
+{
+  "name": "express-mongo-dev",
+  "version": "1.0.0",
+  "description": "backend express server w/ mongo for offline dev",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anujdatar/express-mongo-dev.git"
+  },
+  "keywords": [
+    "node.js",
+    "mongo",
+    "db",
+    "express",
+    "mean"
+  ],
+  "author": "Anuj Datar",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/anujdatar/express-mongo-dev/issues"
+  },
+  "homepage": "https://github.com/anujdatar/express-mongo-dev#readme"
+}
