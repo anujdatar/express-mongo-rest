@@ -1,7 +1,7 @@
 {
-  "name": "express-mongo-dev",
+  "name": "express-mongo-rest",
   "version": "1.0.0",
-  "description": "backend express server w/ mongo for offline dev",
+  "description": "Basic scaffold for backend REST API using express & mongo",
   "main": "server.js",
   "scripts": {
     "test": "echo \"No test specified\"",
@@ -9,20 +9,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/anujdatar/express-mongo-dev.git"
+    "url": "git+https://github.com/anujdatar/express-mongo-rest.git"
   },
   "keywords": [
     "node.js",
     "mongodb",
     "express",
-    "mean"
+    "rest"
   ],
   "author": "Anuj Datar",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/anujdatar/express-mongo-dev/issues"
+    "url": "https://github.com/anujdatar/express-mongo-rest/issues"
   },
-  "homepage": "https://github.com/anujdatar/express-mongo-dev#readme",
+  "homepage": "https://github.com/anujdatar/express-mongo-rest#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",

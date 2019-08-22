@@ -1,2 +1,3 @@
-# express-mongo-dev
-backend express server w/ mongo for offline dev
+# express-mongo-rest
+
+Basic scaffold for backend REST API using express & mongo
