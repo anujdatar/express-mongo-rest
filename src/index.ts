@@ -14,7 +14,7 @@ app.use(cors({
   credentials: true
 }))
 
-app.get('/', (req, res) => {
+app.get('/', (_req, res) => {
   res.status(200)
   res.send({
     message: 'Hello World!'
@@ -22,5 +22,6 @@ app.get('/', (req, res) => {
 })
 
 app.listen(port, () => {
-  console.log(`⚡️[server ${new Date().toLocaleString()}]: Server is running at http://localhost:${port}`)
+  const date = new Date().toLocaleString()
+  console.log(`⚡️[server ${date}]: Server is running at http://localhost:${port}`)
 })
