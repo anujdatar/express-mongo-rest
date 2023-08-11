@@ -1,6 +1,7 @@
 import express from 'express'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
+import { connectToDatabase } from '@/dbController'
 
 const port = process.env.PORT != null ? process.env.PORT : 5000
 const FRONTEND_URL = process.env.FRONTEND_URL as string
@@ -17,11 +18,18 @@ app.use(cors({
 app.get('/', (_req, res) => {
   res.status(200)
   res.send({
-    message: 'Hello World!'
+    message: 'Hello from express-mongo-rest backend'
   })
 })
 
-app.listen(port, () => {
-  const date = new Date().toLocaleString()
-  console.log(`⚡️[server ${date}]: Server is running at http://localhost:${port}`)
-})
+connectToDatabase('mongo')
+  .then(() => {
+    app.listen(port, () => {
+      const date = new Date().toLocaleString()
+      console.log(`⚡️[server ${date}]: Server is running at http://localhost:${port}`)
+    })
+  })
+  .catch((error) => {
+    console.log('Failed to connect to database: ', error)
+    process.exit(1)
+  })
