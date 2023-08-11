@@ -29,6 +29,18 @@ const UserSchema = new Schema({
     type: String,
     required: [true, 'Last name is required']
   },
+  teams: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Team'
+    }
+  ],
+  projects: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Project'
+    }
+  ],
   role: {
     type: String,
     enum: ['admin', 'user'],
