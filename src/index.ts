@@ -2,6 +2,7 @@ import express from 'express'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import { connectToDatabase } from '@/dbController'
+import { userRouter } from '@/routes'
 
 const port = process.env.PORT != null ? process.env.PORT : 5000
 const FRONTEND_URL = process.env.FRONTEND_URL as string
@@ -21,6 +22,8 @@ app.get('/', (_req, res) => {
     message: 'Hello from express-mongo-rest backend'
   })
 })
+
+app.use('/user', userRouter)
 
 connectToDatabase('mongo')
   .then(() => {
