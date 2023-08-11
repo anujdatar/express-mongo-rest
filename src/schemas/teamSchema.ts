@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose'
 import { modifiedTimestamp } from './plugin'
 
-const OrganizationSchema = new Schema({
+const TeamSchema = new Schema({
   name: {
     type: String,
     required: [true, 'Name is required']
@@ -36,6 +36,6 @@ const OrganizationSchema = new Schema({
   deletedAt: Date
 })
 
-OrganizationSchema.plugin(modifiedTimestamp)
+TeamSchema.plugin(modifiedTimestamp)
 
-export const Org = model('Org', OrganizationSchema)
+export const Team = model('Org', TeamSchema)

@@ -12,10 +12,10 @@ const ProjectSchema = new Schema({
     ref: 'User',
     required: [true, 'Owner is required']
   },
-  organization: {
+  team: {
     type: Schema.Types.ObjectId,
-    ref: 'Org',
-    required: [true, 'Organization is required']
+    ref: 'Team'
+    // required: [true, 'Team is required']
   },
   members: [{
     type: Schema.Types.ObjectId,
