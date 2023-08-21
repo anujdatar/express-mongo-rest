@@ -17,7 +17,7 @@ const TeamSchema = new Schema({
     enum: ['free', 'premium'],
     default: 'free'
   },
-  members: [{
+  users: [{
     type: Schema.Types.ObjectId,
     ref: 'User'
   }],
