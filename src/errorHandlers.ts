@@ -1,5 +1,3 @@
-import { type Response } from 'express'
-
 export class HttpError extends Error {
   code: number
 
@@ -26,4 +24,3 @@ export class MongoDbDuplicationError extends Error {
     this.keyValue = keyValue
   }
 }
-
