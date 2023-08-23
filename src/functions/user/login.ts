@@ -51,6 +51,7 @@ async function loginFunc (req: Request, res: Response): Promise<void> {
     }
   } catch (err) {
     const error = err as HttpError
+    res.clearCookie('authToken')
     res.status(error.code)
     res.send({
       message: error.message
