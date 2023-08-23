@@ -2,7 +2,7 @@ import { type Request, type Response } from 'express'
 import bcrypt from 'bcrypt'
 
 import { User } from '@/schemas'
-import { HttpError, handleDuplicateDbEntry } from '@/errorHandlers'
+import { HttpError, type MongoDbDuplicationError } from '@/errorHandlers'
 
 async function registerFunc (req: Request, res: Response): Promise<void> {
   try {
@@ -34,14 +34,19 @@ async function registerFunc (req: Request, res: Response): Promise<void> {
   } catch (err) {
     const error = err as HttpError
     if (error.code === 11000) {
-      handleDuplicateDbEntry(error, res)
-    } else {
-      // error.code = 500
-      res.status(error.code)
-      res.send({
-        message: error.message
-      })
+      const tempError = err as MongoDbDuplicationError
+      const field = Object.keys(tempError.keyValue)[0]
+      const value = tempError.keyValue[field] as string
+
+      error.code = 409
+      error.message = `An account is already associated with '${field}: ${value}'`
     }
+    // error.code = 500
+    res.clearCookie('authToken')
+    res.status(error.code)
+    res.send({
+      message: error.message
+    })
   }
 }
 

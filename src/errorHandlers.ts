@@ -27,12 +27,3 @@ export class MongoDbDuplicationError extends Error {
   }
 }
 
-export function handleDuplicateDbEntry (err: Error, res: Response): void {
-  const error = err as MongoDbDuplicationError
-  const field = Object.keys(error.keyValue)[0]
-  const value = error.keyValue[field] as string
-  res.status(409)
-  res.send({
-    message: `An account is already associated with '${field}: ${value}'`
-  })
-}
