@@ -23,32 +23,33 @@ async function loginFunc (req: Request, res: Response): Promise<void> {
 
     if (user == null) {
       throw new HttpError(404, 'User not found')
-    } else {
-      const validPassword = bcrypt.compareSync(
-        req.body.password as string,
-        user.password as string
-      )
-
-      if (!validPassword) {
-        throw new HttpError(401, 'Incorrect email password combination')
-      } else {
-        const token = jwt.sign(
-          { _id: user._id },
-          process.env.JWT_SECRET as string,
-          { expiresIn: '24h' }
-        )
-        res.cookie('authToken', token, {
-          httpOnly: true
-        })
-        res.status(200)
-        res.send({
-          message: 'Logged in',
-          user: {
-            phone: user.phone
-          }
-        })
-      }
     }
+    if (user.passwordResetFlag) {
+      throw new HttpError(400, 'User must reset password')
+    }
+    const validPassword = bcrypt.compareSync(
+      req.body.password as string,
+      user.password as string
+    )
+
+    if (!validPassword) {
+      throw new HttpError(401, 'Incorrect email password combination')
+    }
+    const token = jwt.sign(
+      { _id: user._id },
+      process.env.JWT_SECRET as string,
+      { expiresIn: '24h' }
+    )
+    res.cookie('authToken', token, {
+      httpOnly: true
+    })
+    res.status(200)
+    res.send({
+      message: 'Logged in',
+      user: {
+        phone: user.phone
+      }
+    })
   } catch (err) {
     const error = err as HttpError
     res.clearCookie('authToken')
