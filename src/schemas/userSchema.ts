@@ -46,6 +46,14 @@ const UserSchema = new Schema({
     enum: ['admin', 'user'],
     default: 'user'
   },
+  passwordResetFlag: {
+    type: Boolean,
+    default: false
+  },
+  passwordResetCode: {
+    code: String,
+    expiresAt: Date
+  },
   deleted: {
     type: Boolean,
     default: false
