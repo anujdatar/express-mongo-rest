@@ -38,4 +38,4 @@ const TeamSchema = new Schema({
 
 TeamSchema.plugin(modifiedTimestamp)
 
-export const Team = model('Org', TeamSchema)
+export const Team = model('Team', TeamSchema)
