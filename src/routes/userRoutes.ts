@@ -1,5 +1,6 @@
 import { Router } from 'express'
-import { login, logout, register } from '@/functions/user'
+import { changePass, login, logout, register } from '@/functions/user'
+import { verifyToken } from '@/middleware'
 
 export const userRouter = Router()
 
@@ -19,12 +20,7 @@ userRouter.post('/reset-password', (_req, res) => {
   })
 })
 
-userRouter.post('/change-password', (_req, res) => {
-  res.status(200)
-  res.send({
-    message: 'change password'
-  })
-})
+userRouter.post('/change-password', verifyToken, changePass)
 
 userRouter.post('/change-email', (_req, res) => {
   res.status(200)
