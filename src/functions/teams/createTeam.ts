@@ -1,6 +1,6 @@
 import { type Request, type Response } from 'express'
 
-import { HttpError } from '@/errorHandlers'
+import { HttpError } from '@/errorHandling'
 import { Team, User } from '@/schemas'
 
 async function createTeamFunc (req: Request, res: Response): Promise<void> {

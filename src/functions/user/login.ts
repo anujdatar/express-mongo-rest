@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
 import { User } from '@/schemas'
-import { HttpError } from '@/errorHandlers'
+import { HttpError } from '@/errorHandling'
 
 async function loginFunc (req: Request, res: Response): Promise<void> {
   try {

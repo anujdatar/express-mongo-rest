@@ -2,7 +2,7 @@ import { type Request, type Response } from 'express'
 import bcrypt from 'bcrypt'
 
 import { User } from '@/schemas'
-import { HttpError } from '@/errorHandlers'
+import { HttpError } from '@/errorHandling'
 
 async function changePassFunc (req: Request, res: Response): Promise<void> {
   try {

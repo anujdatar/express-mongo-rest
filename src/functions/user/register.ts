@@ -2,7 +2,7 @@ import { type Request, type Response } from 'express'
 import bcrypt from 'bcrypt'
 
 import { User } from '@/schemas'
-import { HttpError, type MongoDbDuplicationError } from '@/errorHandlers'
+import { HttpError, type MongoDbDuplicationError } from '@/errorHandling'
 
 async function registerFunc (req: Request, res: Response): Promise<void> {
   try {
