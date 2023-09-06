@@ -48,6 +48,8 @@ async function resetPassFunc (req: Request, res: Response): Promise<void> {
     }
 
     user.password = await bcrypt.hash(req.body.newPass, 12)
+    user.passwordResetFlag = false
+    user.passwordResetCode = undefined
     await user.save()
 
     res.status(200)
