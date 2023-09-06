@@ -1,6 +1,13 @@
 import { Router } from 'express'
-import { changePass, login, logout, register } from '@/functions/user'
 import { verifyToken } from '@/middleware'
+import {
+  changePass,
+  login,
+  logout,
+  register,
+  resetPass,
+  resetPassInit
+} from '@/functions/user'
 
 export const userRouter = Router()
 
@@ -10,17 +17,11 @@ userRouter.post('/login', login)
 
 userRouter.get('/logout', logout)
 
-// TODO: add middleware to check if a user is logged in
-// TODO: add these routes
-
-userRouter.post('/reset-password', (_req, res) => {
-  res.status(200)
-  res.send({
-    message: 'reset password'
-  })
-})
-
 userRouter.post('/change-password', verifyToken, changePass)
+
+userRouter.post('/request-password-reset', resetPassInit)
+
+userRouter.post('/reset-password', resetPass)
 
 userRouter.post('/change-email', (_req, res) => {
   res.status(200)
