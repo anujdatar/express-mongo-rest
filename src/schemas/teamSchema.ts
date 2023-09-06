@@ -14,7 +14,7 @@ const TeamSchema = new Schema({
   },
   subscription: {
     type: String,
-    enum: ['free', 'premium'],
+    enum: ['free', 'plus', 'premium'],
     default: 'free'
   },
   users: [{
