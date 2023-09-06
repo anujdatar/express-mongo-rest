@@ -28,12 +28,16 @@ async function resetPassInitFunc (req: Request, res: Response): Promise<void> {
       expiresAt: codeExpiration
     }
     await user.save()
+
+    const frontendUrl = process.env.FRONTEND_URL as string
+    const resetLink = `${frontendUrl}/reset-password/?userId=${user._id.toString()}&resetCode=${resetCode}`
+
     res.status(200)
     res.send({
       message: 'Password reset initiated',
       userId: user._id,
       resetCode,
-      resetLink: `http://localhost:5000/user/reset-password/?userId=${user._id.toString()}&resetCode=${resetCode}`
+      resetLink
     })
   } catch (err) {
     const error = err as HttpError
