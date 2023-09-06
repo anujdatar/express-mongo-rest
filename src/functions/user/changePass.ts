@@ -22,6 +22,9 @@ async function changePassFunc (req: Request, res: Response): Promise<void> {
     if (user == null) {
       throw new HttpError(404, 'User not found')
     }
+    if (user.passwordResetFlag) {
+      throw new HttpError(400, 'User must reset password')
+    }
     const validCurrPass = await bcrypt.compare(
       req.body.currPass as string,
       user.password as string

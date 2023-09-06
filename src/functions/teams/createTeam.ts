@@ -18,6 +18,9 @@ async function createTeamFunc (req: Request, res: Response): Promise<void> {
     if (user == null) {
       throw new HttpError(404, 'User not found')
     }
+    if (user.passwordResetFlag) {
+      throw new HttpError(400, 'User must reset password')
+    }
 
     const team = new Team({
       name: req.body.teamName,
