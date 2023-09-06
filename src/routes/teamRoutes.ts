@@ -4,4 +4,4 @@ import { verifyToken } from '@/middleware'
 
 export const teamRouter = Router()
 
-teamRouter.post('/createTeam', verifyToken, createTeam)
+teamRouter.post('/create-team', verifyToken, createTeam)
