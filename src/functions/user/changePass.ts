@@ -22,15 +22,14 @@ async function changePassFunc (req: Request, res: Response): Promise<void> {
     if (user == null) {
       throw new HttpError(404, 'User not found')
     }
-    const validCurrPass = bcrypt.compareSync(
+    const validCurrPass = await bcrypt.compare(
       req.body.currPass as string,
       user.password as string
     )
     if (!validCurrPass) {
       throw new HttpError(401, 'Current password does not match')
     }
-    const newPassHash = bcrypt.hashSync(req.body.newPass, 12)
-    user.password = newPassHash
+    user.password = await bcrypt.hash(req.body.newPass, 12)
     await user.save()
 
     res.status(200)

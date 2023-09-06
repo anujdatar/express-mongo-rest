@@ -19,7 +19,7 @@ async function registerFunc (req: Request, res: Response): Promise<void> {
 
     const user = new User({
       email: req.body.email,
-      password: bcrypt.hashSync(req.body.password, 12),
+      password: await bcrypt.hash(req.body.password, 12),
       username: req.body.username,
       firstName: req.body.firstName,
       lastName: req.body.lastName,

@@ -27,7 +27,7 @@ async function loginFunc (req: Request, res: Response): Promise<void> {
     if (user.passwordResetFlag) {
       throw new HttpError(400, 'User must reset password')
     }
-    const validPassword = bcrypt.compareSync(
+    const validPassword = await bcrypt.compare(
       req.body.password as string,
       user.password as string
     )
