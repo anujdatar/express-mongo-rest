@@ -8,7 +8,7 @@ userRouter.post('/register', register)
 
 userRouter.post('/login', login)
 
-userRouter.post('/logout', logout)
+userRouter.get('/logout', logout)
 
 // TODO: add middleware to check if a user is logged in
 // TODO: add these routes
