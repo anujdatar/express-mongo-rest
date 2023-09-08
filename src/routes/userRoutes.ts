@@ -6,7 +6,9 @@ import {
   logout,
   register,
   resetPass,
-  resetPassInit
+  resetPassInit,
+  verifyEmail,
+  verifyPhone
 } from '@/functions/user'
 
 export const userRouter = Router()
@@ -22,6 +24,9 @@ userRouter.post('/change-password', verifyToken, changePass)
 userRouter.post('/request-password-reset', resetPassInit)
 
 userRouter.post('/reset-password', resetPass)
+
+userRouter.get('/verify-email', verifyEmail)
+userRouter.get('/verify-phone', verifyPhone)
 
 userRouter.post('/change-email', (_req, res) => {
   res.status(200)
