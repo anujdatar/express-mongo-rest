@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt'
 
 import { User } from '@/schemas'
 import { HttpError, type MongoDbDuplicationError } from '@/errorHandling'
+import { generateRandomInteger, sendEmail, sendText } from '@/helpers'
 
 async function registerFunc (req: Request, res: Response): Promise<void> {
   try {
@@ -17,15 +18,24 @@ async function registerFunc (req: Request, res: Response): Promise<void> {
     }
     if (req.body.username == null) req.body.username = req.body.email
 
+    const emailVerificationCode = generateRandomInteger(6)
+    const phoneVerificationCode = generateRandomInteger(6)
+
     const user = new User({
       email: req.body.email,
       password: await bcrypt.hash(req.body.password, 12),
       username: req.body.username,
       firstName: req.body.firstName,
       lastName: req.body.lastName,
-      phone: req.body.phone
+      phone: req.body.phone,
+      emailVerification: { code: emailVerificationCode, verified: false },
+      phoneVerification: { code: phoneVerificationCode, verified: false }
     })
     await user.save()
+
+    const backendUrl = process.env.BACKEND_URL as string
+    await sendEmail(`${backendUrl}/user/verify-email/?code=${emailVerificationCode}&email=${req.body.email as string}`)
+    await sendText(`${backendUrl}/user/verify-phone/?code=${phoneVerificationCode}&phone=${req.body.phone as string}`)
 
     res.status(201)
     res.send({
