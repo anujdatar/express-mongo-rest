@@ -46,6 +46,26 @@ const UserSchema = new Schema({
     enum: ['admin', 'user'],
     default: 'user'
   },
+  emailVerification: {
+    code: {
+      type: String,
+      default: ''
+    },
+    verified: {
+      type: Boolean,
+      default: false
+    }
+  },
+  phoneVerification: {
+    code: {
+      type: String,
+      default: ''
+    },
+    verified: {
+      type: Boolean,
+      default: false
+    }
+  },
   passwordResetFlag: {
     type: Boolean,
     default: false
