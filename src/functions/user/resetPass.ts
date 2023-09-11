@@ -15,11 +15,7 @@ async function resetPassFunc (req: Request, res: Response): Promise<void> {
     }
 
     const user = await User.findOne({
-      $or: [
-        { email: req.body.login },
-        { phone: req.body.login },
-        { username: req.body.login }
-      ]
+      _id: req.body.userId
     })
     if (user == null) {
       throw new HttpError(404, 'User not found')
