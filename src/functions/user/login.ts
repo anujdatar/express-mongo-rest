@@ -27,12 +27,17 @@ async function loginFunc (req: Request, res: Response): Promise<void> {
     if (user.passwordResetFlag) {
       throw new HttpError(400, 'User must reset password')
     }
+    if (user.incorrectPasswordAttempts > 2) {
+      throw new HttpError(401, 'Too many incorret password attempts. Please reset password')
+    }
     const validPassword = await bcrypt.compare(
       req.body.password as string,
       user.password as string
     )
 
     if (!validPassword) {
+      user.incorrectPasswordAttempts += 1
+      await user.save()
       throw new HttpError(401, 'Incorrect email password combination')
     }
     const token = jwt.sign(
@@ -43,6 +48,9 @@ async function loginFunc (req: Request, res: Response): Promise<void> {
     res.cookie('authToken', token, {
       httpOnly: true
     })
+
+    user.incorrectPasswordAttempts = 0
+    await user.save()
     res.status(200)
     res.send({
       message: 'Logged in',

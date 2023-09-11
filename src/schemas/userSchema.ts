@@ -21,6 +21,10 @@ const UserSchema = new Schema({
     type: String,
     required: [true, 'Password is required']
   },
+  incorrectPasswordAttempts: {
+    type: Number,
+    default: 0
+  },
   firstName: {
     type: String,
     required: [true, 'First name is required']
