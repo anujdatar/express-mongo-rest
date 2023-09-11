@@ -1,7 +1,7 @@
 import { type Request, type Response } from 'express'
 import { HttpError } from '@/errorHandling'
 import { User } from '@/schemas'
-import { generateRandomString } from '@/helpers'
+import { generateRandomString, sendEmail } from '@/helpers'
 
 async function resetPassInitFunc (req: Request, res: Response): Promise<void> {
   try {
@@ -31,12 +31,11 @@ async function resetPassInitFunc (req: Request, res: Response): Promise<void> {
 
     const frontendUrl = process.env.FRONTEND_URL as string
     const resetLink = `${frontendUrl}/user/reset-password/?userId=${user._id.toString()}&resetCode=${resetCode}`
+    await sendEmail(resetLink)
 
     res.status(200)
     res.send({
       message: 'Password reset initiated',
-      userId: user._id,
-      resetCode,
       resetLink
     })
   } catch (err) {
