@@ -38,7 +38,7 @@ async function loginFunc (req: Request, res: Response): Promise<void> {
     if (!validPassword) {
       user.incorrectPasswordAttempts += 1
       await user.save()
-      throw new HttpError(401, 'Incorrect email password combination')
+      throw new HttpError(401, 'Incorrect credentials')
     }
     const token = jwt.sign(
       { _id: user._id },
