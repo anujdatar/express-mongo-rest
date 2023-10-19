@@ -17,7 +17,7 @@ const ProjectSchema = new Schema({
     ref: 'Team'
     // required: [true, 'Team is required']
   },
-  members: [{
+  users: [{
     type: Schema.Types.ObjectId,
     ref: 'User'
   }],
