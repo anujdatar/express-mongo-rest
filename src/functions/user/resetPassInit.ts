@@ -22,7 +22,7 @@ async function resetPassInitFunc (req: Request, res: Response): Promise<void> {
 
     user.passwordResetFlag = true
     const resetCode = generateRandomString(8)
-    const codeExpiration = new Date(new Date().getTime() + 30 * 60000)
+    const codeExpiration = new Date(new Date().getTime() + 30 * 60000) // valid for 30 minutes
     user.passwordResetCode = {
       code: resetCode,
       expiresAt: codeExpiration
