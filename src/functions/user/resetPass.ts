@@ -35,13 +35,13 @@ async function resetPassFunc (req: Request, res: Response): Promise<void> {
       throw new HttpError(401, 'Password reset code expired, please reset again')
     }
 
-    const isOldPassValid = await bcrypt.compare(
-      req.body.currPass,
-      user.password as string
-    )
-    if (!isOldPassValid) {
-      throw new HttpError(401, 'Incorrect password, please try again')
-    }
+    // const isOldPassValid = await bcrypt.compare(
+    // req.body.currPass,
+    // user.password as string
+    // )
+    // if (!isOldPassValid) {
+    // throw new HttpError(401, 'Incorrect password, please try again')
+    // }
 
     user.password = await bcrypt.hash(req.body.newPass, 12)
     user.passwordResetFlag = false
