@@ -34,7 +34,7 @@ async function createNewProject (req: Request, res: Response): Promise<void> {
     }
 
     const projectUsers = team.users
-    const projoectAdmin = team.admins
+    const projectAdmin = team.admins
 
     const project = new Project({
       name: req.body.projectName,
@@ -42,7 +42,7 @@ async function createNewProject (req: Request, res: Response): Promise<void> {
       team: req.body.teamId,
       owner: req.body.userId,
       users: projectUsers,
-      admins: projoectAdmin
+      admins: projectAdmin
     })
 
     await project.save()
