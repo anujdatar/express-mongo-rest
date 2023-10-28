@@ -5,33 +5,33 @@ const UserSchema = new Schema({
   email: {
     type: String,
     unique: true,
-    lowercase: true,
-    required: [true, 'Email is required']
+    lowercase: true
+    // required: [true, 'Email is required']
   },
   phone: {
     type: String,
-    unique: true,
-    required: [true, 'Phone is required']
+    unique: true
+    // required: [true, 'Phone is required']
   },
   username: {
     type: String,
     unique: true
   },
   password: {
-    type: String,
-    required: [true, 'Password is required']
+    type: String
+    // required: [true, 'Password is required']
   },
   incorrectPasswordAttempts: {
     type: Number,
     default: 0
   },
   firstName: {
-    type: String,
-    required: [true, 'First name is required']
+    type: String
+    // required: [true, 'First name is required']
   },
   lastName: {
-    type: String,
-    required: [true, 'Last name is required']
+    type: String
+    // required: [true, 'Last name is required']
   },
   teams: [
     {
@@ -39,6 +39,11 @@ const UserSchema = new Schema({
       ref: 'Team'
     }
   ],
+  accountState: {
+    type: String,
+    enum: ['invited', 'active', 'inactive', 'deleted', 'suspended'],
+    default: 'active'
+  },
   projects: [
     {
       type: Schema.Types.ObjectId,
@@ -77,12 +82,12 @@ const UserSchema = new Schema({
   passwordResetCode: {
     code: String,
     expiresAt: Date
-  },
-  deleted: {
-    type: Boolean,
-    default: false
-  },
-  deletedAt: Date
+  }
+  // deleted: {
+  //   type: Boolean,
+  //   default: false
+  // },
+  // deletedAt: Date
 })
 
 UserSchema.virtual('fullName').get(function () {
