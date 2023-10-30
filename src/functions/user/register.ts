@@ -33,9 +33,9 @@ async function registerFunc (req: Request, res: Response): Promise<void> {
     })
     await user.save()
 
-    const backendUrl = process.env.BACKEND_URL as string
-    await sendEmail(`${backendUrl}/user/verify-email/?code=${emailVerificationCode}&email=${req.body.email as string}`)
-    await sendText(`${backendUrl}/user/verify-phone/?code=${phoneVerificationCode}&phone=${req.body.phone as string}`)
+    const frontendUrl = process.env.FRONTEND_URL as string
+    await sendEmail(`${frontendUrl}/user/verify-email/?code=${emailVerificationCode}&email=${req.body.email as string}`)
+    await sendText(`${frontendUrl}/user/verify-phone/?code=${phoneVerificationCode}&phone=${req.body.phone as string}`)
 
     res.status(201)
     res.send({
