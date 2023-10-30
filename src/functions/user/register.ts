@@ -7,6 +7,12 @@ import { generateRandomInteger, sendEmail, sendText } from '@/utils'
 
 async function registerFunc (req: Request, res: Response): Promise<void> {
   try {
+    if (process.env.INVITATION_ONLY === 'true' && req.body.inviteCode == null) {
+      throw new HttpError(
+        401,
+        'Invitation required to register. Please contact admin'
+      )
+    }
     if (
       req.body.email == null ||
       req.body.password == null ||

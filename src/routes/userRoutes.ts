@@ -1,7 +1,8 @@
 import { Router } from 'express'
-import { verifyToken } from '@/middleware'
+import { isAdmin, verifyToken } from '@/middleware'
 import {
   changePass,
+  inviteUser,
   login,
   logout,
   register,
@@ -12,6 +13,8 @@ import {
 } from '@/functions/user'
 
 export const userRouter = Router()
+
+userRouter.post('/invite-user', verifyToken, isAdmin, inviteUser)
 
 userRouter.post('/register', register)
 
