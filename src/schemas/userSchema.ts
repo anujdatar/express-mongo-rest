@@ -82,6 +82,10 @@ const UserSchema = new Schema({
   passwordResetCode: {
     code: String,
     expiresAt: Date
+  },
+  inviteCode: {
+    type: String,
+    default: ''
   }
   // deleted: {
   //   type: Boolean,
