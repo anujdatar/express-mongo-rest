@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt'
 
 import { User } from '@/schemas'
 import { HttpError, type MongoDbDuplicationError } from '@/errorHandling'
-import { generateRandomInteger, sendEmail, sendText } from '@/helpers'
+import { generateRandomInteger, sendEmail, sendText } from '@/utils'
 
 async function registerFunc (req: Request, res: Response): Promise<void> {
   try {

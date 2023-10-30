@@ -1,7 +1,7 @@
 import { type Request, type Response } from 'express'
 import { HttpError } from '@/errorHandling'
 import { User } from '@/schemas'
-import { generateRandomString, sendEmail } from '@/helpers'
+import { generateRandomString, sendEmail } from '@/utils'
 
 async function resetPassInitFunc (req: Request, res: Response): Promise<void> {
   try {
