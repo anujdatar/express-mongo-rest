@@ -47,6 +47,7 @@ async function registerFunc (req: Request, res: Response): Promise<void> {
     user.username = req.body.username
     user.firstName = req.body.firstName
     user.lastName = req.body.lastName
+    user.accountState = 'active'
     user.emailVerification = { code: emailVerificationCode, verified: false }
     user.phoneVerification = { code: phoneVerificationCode, verified: false }
 
