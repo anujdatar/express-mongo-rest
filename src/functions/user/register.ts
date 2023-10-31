@@ -22,24 +22,38 @@ async function registerFunc (req: Request, res: Response): Promise<void> {
     ) {
       throw new HttpError(400, 'Missing required fields')
     }
+
+    const user = await User.findOne({
+      $or: [
+        { email: req.body.email },
+        { phone: req.body.phone }
+      ]
+    })
+    if (user == null) {
+      throw new HttpError(404, 'User not found')
+    }
+    if (user.accountState !== 'invited') {
+      throw new HttpError(401, 'User not invited or already registered')
+    }
+
     if (req.body.username == null) req.body.username = req.body.email
 
-    const emailVerificationCode = generateRandomInteger(6)
-    const phoneVerificationCode = generateRandomInteger(6)
+    const emailVerificationCode = generateRandomInteger(6).toString()
+    const phoneVerificationCode = generateRandomInteger(6).toString()
 
-    const user = new User({
-      email: req.body.email,
-      password: await bcrypt.hash(req.body.password, 12),
-      username: req.body.username,
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      phone: req.body.phone,
-      emailVerification: { code: emailVerificationCode, verified: false },
-      phoneVerification: { code: phoneVerificationCode, verified: false }
-    })
+    user.email = req.body.email
+    user.phone = req.body.phone
+    user.password = await bcrypt.hash(req.body.password, 12)
+    user.username = req.body.username
+    user.firstName = req.body.firstName
+    user.lastName = req.body.lastName
+    user.emailVerification = { code: emailVerificationCode, verified: false }
+    user.phoneVerification = { code: phoneVerificationCode, verified: false }
+
     await user.save()
 
-    const frontendUrl = process.env.FRONTEND_URL as string
+    // TODO: change to frontend url when ready
+    const frontendUrl = process.env.BACKEND_URL as string
     await sendEmail(`${frontendUrl}/user/verify-email/?code=${emailVerificationCode}&email=${req.body.email as string}`)
     await sendText(`${frontendUrl}/user/verify-phone/?code=${phoneVerificationCode}&phone=${req.body.phone as string}`)
 
