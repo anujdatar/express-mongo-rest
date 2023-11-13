@@ -7,12 +7,6 @@ import { generateRandomInteger, sendEmail, sendText } from '@/utils'
 
 async function registerFunc (req: Request, res: Response): Promise<void> {
   try {
-    if (process.env.INVITATION_ONLY === 'true' && req.body.inviteCode == null) {
-      throw new HttpError(
-        401,
-        'Invitation required to register. Please contact admin'
-      )
-    }
     if (
       req.body.email == null ||
       req.body.password == null ||
@@ -22,40 +16,61 @@ async function registerFunc (req: Request, res: Response): Promise<void> {
     ) {
       throw new HttpError(400, 'Missing required fields')
     }
-
-    const user = await User.findOne({
-      $or: [
-        { email: req.body.email },
-        { phone: req.body.phone }
-      ]
-    })
-    if (user == null) {
-      throw new HttpError(404, 'User not found')
-    }
-    if (user.accountState !== 'invited') {
-      throw new HttpError(401, 'User not invited or already registered')
-    }
-    if (user.inviteCode !== req.body.inviteCode) {
-      throw new HttpError(401, 'Invalid invitation code')
-    }
-
     if (req.body.username == null) req.body.username = req.body.email
 
     const emailVerificationCode = generateRandomInteger(6).toString()
     const phoneVerificationCode = generateRandomInteger(6).toString()
 
-    user.email = req.body.email
-    user.phone = req.body.phone
-    user.password = await bcrypt.hash(req.body.password, 12)
-    user.username = req.body.username
-    user.firstName = req.body.firstName
-    user.lastName = req.body.lastName
-    user.accountState = 'active'
-    user.emailVerification = { code: emailVerificationCode, verified: false }
-    user.phoneVerification = { code: phoneVerificationCode, verified: false }
-    user.inviteCode = ''
+    if (process.env.INVITATION_ONLY === 'true') {
+      if (req.body.inviteCode == null) {
+        throw new HttpError(
+          401,
+          'Invitation required to register. Please contact admin'
+        )
+      }
 
-    await user.save()
+      const user = await User.findOne({
+        $or: [
+          { email: req.body.email },
+          { phone: req.body.phone }
+        ]
+      })
+      if (user == null) {
+        throw new HttpError(404, 'User not found')
+      }
+      if (user.accountState !== 'invited') {
+        throw new HttpError(401, 'User not invited or already registered')
+      }
+      if (user.inviteCode !== req.body.inviteCode) {
+        throw new HttpError(401, 'Invalid invitation code')
+      }
+
+      user.email = req.body.email
+      user.password = await bcrypt.hash(req.body.password, 12)
+      user.username = req.body.username
+      user.firstName = req.body.firstName
+      user.lastName = req.body.lastName
+      user.phone = req.body.phone
+      user.accountState = 'active'
+      user.emailVerification = { code: emailVerificationCode, verified: false }
+      user.phoneVerification = { code: phoneVerificationCode, verified: false }
+      user.inviteCode = ''
+
+      await user.save()
+    } else {
+      const user = new User({
+        email: req.body.email,
+        password: await bcrypt.hash(req.body.password, 12),
+        username: req.body.username,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        phone: req.body.phone,
+        accountState: 'active',
+        emailVerification: { code: emailVerificationCode, verified: false },
+        phoneVerification: { code: phoneVerificationCode, verified: false }
+      })
+      await user.save()
+    }
 
     // TODO: change to frontend url when ready
     const frontendUrl = process.env.BACKEND_URL as string
