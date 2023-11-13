@@ -32,6 +32,7 @@ async function newAdmin (req: Request, res: Response): Promise<void> {
       lastName: req.body.lastName,
       phone: req.body.phone,
       role: 'admin',
+      accountState: 'active',
       emailVerification: { code: emailVerificationCode, verified: false },
       phoneVerification: { code: phoneVerificationCode, verified: false }
     })
