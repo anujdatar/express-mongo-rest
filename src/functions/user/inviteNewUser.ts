@@ -4,7 +4,7 @@ import { User } from '@/schemas'
 import { HttpError, type MongoDbDuplicationError } from '@/errorHandling'
 import { generateRandomString, sendEmail, sendText } from '@/utils'
 
-async function inviteFunc (req: Request, res: Response): Promise<void> {
+async function inviteNewFunc (req: Request, res: Response): Promise<void> {
   try {
     if (req.body.userId == null) {
       throw new HttpError(401, 'User not authenticated')
@@ -54,6 +54,6 @@ async function inviteFunc (req: Request, res: Response): Promise<void> {
   }
 }
 
-export const inviteUser = (req: Request, res: Response): void => {
-  void inviteFunc(req, res)
+export const inviteNewUser = (req: Request, res: Response): void => {
+  void inviteNewFunc(req, res)
 }

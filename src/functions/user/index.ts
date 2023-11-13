@@ -1,4 +1,4 @@
-export * from './inviteUser'
+export * from './inviteNewUser'
 export * from './register'
 export * from './login'
 export * from './logout'

@@ -2,7 +2,7 @@ import { Router } from 'express'
 import { isAdmin, verifyToken } from '@/middleware'
 import {
   changePass,
-  inviteUser,
+  inviteNewUser,
   login,
   logout,
   register,
@@ -14,7 +14,7 @@ import {
 
 export const userRouter = Router()
 
-userRouter.post('/invite-user', verifyToken, isAdmin, inviteUser)
+userRouter.post('/invite-user', verifyToken, isAdmin, inviteNewUser)
 
 userRouter.post('/register', register)
 
