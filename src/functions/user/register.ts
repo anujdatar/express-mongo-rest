@@ -53,6 +53,7 @@ async function registerFunc (req: Request, res: Response): Promise<void> {
     user.accountState = 'active'
     user.emailVerification = { code: emailVerificationCode, verified: false }
     user.phoneVerification = { code: phoneVerificationCode, verified: false }
+    user.inviteCode = ''
 
     await user.save()
 
