@@ -7,9 +7,6 @@ import { generateRandomInteger, sendEmail, sendText } from '@/utils'
 
 async function newAdmin (req: Request, res: Response): Promise<void> {
   try {
-    if (req.body.adminPassword !== process.env.ADMIN_PASSWORD) {
-      throw new HttpError(401, 'Unauthorized. Contact site admin')
-    }
     if (
       req.body.email == null ||
       req.body.password == null ||
@@ -23,6 +20,10 @@ async function newAdmin (req: Request, res: Response): Promise<void> {
 
     const emailVerificationCode = generateRandomInteger(6).toString()
     const phoneVerificationCode = generateRandomInteger(6).toString()
+
+    if (req.body.adminPassword !== process.env.ADMIN_PASSWORD) {
+      throw new HttpError(401, 'Unauthorized. Contact site admin')
+    }
 
     const user = new User({
       email: req.body.email,
