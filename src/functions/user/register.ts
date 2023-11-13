@@ -35,6 +35,9 @@ async function registerFunc (req: Request, res: Response): Promise<void> {
     if (user.accountState !== 'invited') {
       throw new HttpError(401, 'User not invited or already registered')
     }
+    if (user.inviteCode !== req.body.inviteCode) {
+      throw new HttpError(401, 'Invalid invitation code')
+    }
 
     if (req.body.username == null) req.body.username = req.body.email
 
